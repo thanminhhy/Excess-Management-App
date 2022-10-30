@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.util.Date;
 
 public class AddActivity extends AppCompatActivity {
     private String[] riskArray = {
@@ -30,8 +27,8 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add);
+
         sp = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, riskArray);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

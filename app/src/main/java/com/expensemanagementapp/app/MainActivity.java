@@ -1,5 +1,6 @@
 package com.expensemanagementapp.app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,14 +50,23 @@ public class MainActivity extends AppCompatActivity {
         trip_date = new ArrayList<>();
         trip_customerName = new ArrayList<>();
         trip_risksAssessment = new ArrayList<>();
+        trip_description = new ArrayList<>();
 
         storeDataInArrays();
 
-        customAdapter = new CustomAdapter(MainActivity.this, trip_id, trip_name,
-                trip_departure, trip_destination, trip_date, trip_customerName, trip_risksAssessment);
+        customAdapter = new CustomAdapter(MainActivity.this,this, trip_id, trip_name,
+                trip_departure, trip_destination, trip_date, trip_customerName, trip_risksAssessment, trip_description);
 
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            recreate();
+        }
     }
 
     void storeDataInArrays(){
@@ -72,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 trip_date.add(cursor.getString(4));
                 trip_customerName.add(cursor.getString(5));
                 trip_risksAssessment.add(cursor.getString(6));
+                trip_description.add(cursor.getString(7));
             }
         }
     }

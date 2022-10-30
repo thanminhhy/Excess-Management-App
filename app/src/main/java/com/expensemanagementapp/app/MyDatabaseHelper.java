@@ -29,7 +29,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public MyDatabaseHelper(@Nullable Context context) {
+     MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -93,4 +93,27 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    void updateData(String row_id, String name,String departure, String destination, String date,String customerName, String risksAssessment, String description){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_DEPARTURE, departure);
+        cv.put(COLUMN_DESTINATION, destination);
+        cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_FullName, customerName);
+        cv.put(COLUMN_RISKSASSESSMENT, risksAssessment);
+        cv.put(COLUMN_DESCRIPTION, description);
+
+        long result = db.update(TABLE_NAME,cv,"_id=?", new String[]{row_id});
+
+        if(result == -1){
+            Toast.makeText(context,"Failed to Update", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(context,"Update Successfully", Toast.LENGTH_SHORT).show();
+        }
+     }
+
 }

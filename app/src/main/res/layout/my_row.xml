@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/mainLayout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -65,9 +66,19 @@
             android:id="@+id/trip_date_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:text="Date 1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/trip_description_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description 1"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/trip_customerName_txt"
+            app:layout_constraintTop_toBottomOf="@+id/trip_customerName_txt" />
 
         <TextView
             android:id="@+id/trip_risksAssessment_txt"
@@ -85,4 +96,4 @@
             app:layout_constraintEnd_toEndOf="@+id/trip_risksAssessment_txt"
             app:layout_constraintTop_toBottomOf="@+id/trip_risksAssessment_txt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
