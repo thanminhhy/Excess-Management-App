@@ -1,8 +1,12 @@
 package com.expensemanagementapp.app;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +31,7 @@ public class UpdateActivity extends AppCompatActivity {
     EditText name_input,destination_input,description_input, departure_input, fullName_input;
     TextView date_input;
     private Spinner spRiskEdit;
-    Button edit_button;
+    Button edit_button, delete_button, viewExpenses_button;
     String tripId, name, departure, destination, date, risksAssessment, customerName, description;
 
     @Override
@@ -46,6 +50,8 @@ public class UpdateActivity extends AppCompatActivity {
         fullName_input = findViewById(R.id.fullName_edit);
         description_input = findViewById(R.id.description_edit);
         edit_button = findViewById(R.id.edit_button);
+        delete_button = findViewById(R.id.delete_button);
+        viewExpenses_button = findViewById(R.id.viewExpenses_button);
 
         if(getIntent().hasExtra("id") && getIntent().hasExtra("name") &&
                 getIntent().hasExtra("departure") && getIntent().hasExtra("destination") &&
@@ -68,10 +74,8 @@ public class UpdateActivity extends AppCompatActivity {
             date_input.setText(date);
             if(Objects.equals(risksAssessment, "Yes")){
                 spRiskEdit.setSelection(0,false);
-                Log.i("yes window", risksAssessment);
             }
             else {
-                Log.i("no window", risksAssessment);
                 spRiskEdit.setSelection(1,false);
             }
             fullName_input.setText(customerName);
@@ -79,6 +83,12 @@ public class UpdateActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
+        }
+
+        //Set action bar title
+        ActionBar ab = getSupportActionBar();
+        if(ab != null){
+            ab.setTitle(name);
         }
 
         edit_button.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +106,44 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
 
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDialog();
+            }
+        });
+
+        viewExpenses_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UpdateActivity.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-//    void getAndSetIntentData(){
-//
-//    }
+    void confirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete" + name + " ?");
+        builder.setMessage("Are you sure you want to delete " + name + " ?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
+                myDB.deleteOneRow(tripId);
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
+    }
+
     public void showEditDatePickerDialog(View v){
         DialogFragment newFragment = new EditDatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
